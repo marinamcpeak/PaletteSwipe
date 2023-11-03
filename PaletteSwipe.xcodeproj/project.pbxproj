@@ -14,10 +14,10 @@
 		054E68962AF4863700606AB8 /* PaletteSwipeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68952AF4863700606AB8 /* PaletteSwipeTests.swift */; };
 		054E68A02AF4863700606AB8 /* PaletteSwipeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E689F2AF4863700606AB8 /* PaletteSwipeUITests.swift */; };
 		054E68A22AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */; };
-		054E68AF2AF48E1B00606AB8 /* PuzzleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68AE2AF48E1B00606AB8 /* PuzzleGenerator.swift */; };
-		054E68B12AF4ABE300606AB8 /* GridSqure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B02AF4ABE300606AB8 /* GridSqure.swift */; };
-		054E68B32AF4AC3B00606AB8 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B22AF4AC3B00606AB8 /* SwipeDirection.swift */; };
-		054E68B52AF4AC6900606AB8 /* PuzzleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B42AF4AC6900606AB8 /* PuzzleViewModel.swift */; };
+		054E68BA2AF4BE3500606AB8 /* PuzzleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */; };
+		054E68BB2AF4BE3500606AB8 /* GridSqure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B72AF4BE3500606AB8 /* GridSqure.swift */; };
+		054E68BC2AF4BE3500606AB8 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */; };
+		054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +48,10 @@
 		054E689B2AF4863700606AB8 /* PaletteSwipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaletteSwipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		054E689F2AF4863700606AB8 /* PaletteSwipeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSwipeUITests.swift; sourceTree = "<group>"; };
 		054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSwipeUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		054E68AE2AF48E1B00606AB8 /* PuzzleGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PuzzleGenerator.swift; path = ../../../PuzzleGenerator.swift; sourceTree = "<group>"; };
-		054E68B02AF4ABE300606AB8 /* GridSqure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridSqure.swift; path = ../../../GridSqure.swift; sourceTree = "<group>"; };
-		054E68B22AF4AC3B00606AB8 /* SwipeDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeDirection.swift; path = ../../../SwipeDirection.swift; sourceTree = "<group>"; };
-		054E68B42AF4AC6900606AB8 /* PuzzleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PuzzleViewModel.swift; path = ../../../PuzzleViewModel.swift; sourceTree = "<group>"; };
+		054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleViewModel.swift; sourceTree = "<group>"; };
+		054E68B72AF4BE3500606AB8 /* GridSqure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridSqure.swift; sourceTree = "<group>"; };
+		054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeDirection.swift; sourceTree = "<group>"; };
+		054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,12 +102,12 @@
 		054E68832AF4863600606AB8 /* PaletteSwipe */ = {
 			isa = PBXGroup;
 			children = (
+				054E68B72AF4BE3500606AB8 /* GridSqure.swift */,
+				054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */,
+				054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */,
+				054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */,
 				054E68842AF4863600606AB8 /* PaletteSwipeApp.swift */,
 				054E68862AF4863600606AB8 /* ContentView.swift */,
-				054E68AE2AF48E1B00606AB8 /* PuzzleGenerator.swift */,
-				054E68B02AF4ABE300606AB8 /* GridSqure.swift */,
-				054E68B22AF4AC3B00606AB8 /* SwipeDirection.swift */,
-				054E68B42AF4AC6900606AB8 /* PuzzleViewModel.swift */,
 				054E68882AF4863700606AB8 /* Assets.xcassets */,
 				054E688A2AF4863700606AB8 /* Preview Content */,
 			);
@@ -269,12 +269,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				054E68B12AF4ABE300606AB8 /* GridSqure.swift in Sources */,
+				054E68BB2AF4BE3500606AB8 /* GridSqure.swift in Sources */,
+				054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */,
 				054E68872AF4863600606AB8 /* ContentView.swift in Sources */,
-				054E68B52AF4AC6900606AB8 /* PuzzleViewModel.swift in Sources */,
-				054E68AF2AF48E1B00606AB8 /* PuzzleGenerator.swift in Sources */,
 				054E68852AF4863600606AB8 /* PaletteSwipeApp.swift in Sources */,
-				054E68B32AF4AC3B00606AB8 /* SwipeDirection.swift in Sources */,
+				054E68BA2AF4BE3500606AB8 /* PuzzleViewModel.swift in Sources */,
+				054E68BC2AF4BE3500606AB8 /* SwipeDirection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
