@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import PaletteSwipe
+import SwiftUI
 
 final class PaletteSwipeTests: XCTestCase {
 
@@ -32,5 +33,27 @@ final class PaletteSwipeTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testTopRowSwipeRight() throws {
+        // Arrange
+        let viewModel = PuzzleViewModel()
+        let expectedGrid = [
+            [Color.yellow, Color.blue, Color.blue],
+            [Color.blue, Color.blue, Color.blue],
+            [Color.blue, Color.blue, Color.blue]
+        ]
+        let expectedLeftOverflow = [Color.red, Color.yellow, Color.yellow]
+        let expectedRightOverflow = [Color.blue, Color.red, Color.red]
+
+        // Act
+        viewModel.swipe(atRow: 0, column: 0, direction: .right)
+
+        // Assert
+        XCTAssertEqual(viewModel.gridColors, expectedGrid)
+        XCTAssertEqual(viewModel.leftOverflow, expectedLeftOverflow)
+        XCTAssertEqual(viewModel.rightOverflow, expectedRightOverflow)
+    }
+
+
 
 }

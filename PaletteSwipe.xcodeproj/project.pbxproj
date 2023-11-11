@@ -15,7 +15,7 @@
 		054E68A02AF4863700606AB8 /* PaletteSwipeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E689F2AF4863700606AB8 /* PaletteSwipeUITests.swift */; };
 		054E68A22AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */; };
 		054E68BA2AF4BE3500606AB8 /* PuzzleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */; };
-		054E68BB2AF4BE3500606AB8 /* GridSqure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B72AF4BE3500606AB8 /* GridSqure.swift */; };
+		054E68BB2AF4BE3500606AB8 /* GridSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B72AF4BE3500606AB8 /* GridSquare.swift */; };
 		054E68BC2AF4BE3500606AB8 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */; };
 		054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +49,7 @@
 		054E689F2AF4863700606AB8 /* PaletteSwipeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSwipeUITests.swift; sourceTree = "<group>"; };
 		054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSwipeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleViewModel.swift; sourceTree = "<group>"; };
-		054E68B72AF4BE3500606AB8 /* GridSqure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridSqure.swift; sourceTree = "<group>"; };
+		054E68B72AF4BE3500606AB8 /* GridSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridSquare.swift; sourceTree = "<group>"; };
 		054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeDirection.swift; sourceTree = "<group>"; };
 		054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,7 +102,7 @@
 		054E68832AF4863600606AB8 /* PaletteSwipe */ = {
 			isa = PBXGroup;
 			children = (
-				054E68B72AF4BE3500606AB8 /* GridSqure.swift */,
+				054E68B72AF4BE3500606AB8 /* GridSquare.swift */,
 				054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */,
 				054E68B62AF4BE3500606AB8 /* PuzzleViewModel.swift */,
 				054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */,
@@ -269,7 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				054E68BB2AF4BE3500606AB8 /* GridSqure.swift in Sources */,
+				054E68BB2AF4BE3500606AB8 /* GridSquare.swift in Sources */,
 				054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */,
 				054E68872AF4863600606AB8 /* ContentView.swift in Sources */,
 				054E68852AF4863600606AB8 /* PaletteSwipeApp.swift in Sources */,
