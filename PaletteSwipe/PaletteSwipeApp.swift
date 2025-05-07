@@ -11,7 +11,7 @@ import SwiftUI
 struct PaletteSwipeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CarouselContentView()
         }
     }
 }
