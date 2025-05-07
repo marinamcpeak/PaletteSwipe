@@ -16,8 +16,8 @@ PaletteSwipe is currently in early development. Gameplay mechanics and user inte
 
 ### Development Phase
 
-- **Current Focus**: Enhancing the swiping mechanics and color arrangement algorithms.
-- **Upcoming Features**: Planning to introduce different levels of difficulty tied to specific colour arrangments
+- **Current Focus**: Enhancing the swiping mechanics, adding simple animations, and resetting the grid.
+- **Upcoming Features**: Implementing puzzle logic. 
 
 ## How to Play
 
