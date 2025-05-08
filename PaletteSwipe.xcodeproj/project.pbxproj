@@ -18,6 +18,8 @@
 		054E68A22AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */; };
 		054E68BC2AF4BE3500606AB8 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */; };
 		054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */; };
+		05A50EBC2DCD3DC500AADB1D /* GameRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A50EBB2DCD3DC100AADB1D /* GameRules.swift */; };
+		05A50EC02DCD401200AADB1D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A50EBF2DCD400E00AADB1D /* GameState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		054E68A12AF4863700606AB8 /* PaletteSwipeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSwipeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		054E68B82AF4BE3500606AB8 /* SwipeDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeDirection.swift; sourceTree = "<group>"; };
 		054E68B92AF4BE3500606AB8 /* PuzzleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleGenerator.swift; sourceTree = "<group>"; };
+		05A50EBB2DCD3DC100AADB1D /* GameRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRules.swift; sourceTree = "<group>"; };
+		05A50EBF2DCD400E00AADB1D /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,8 @@
 		054E68832AF4863600606AB8 /* PaletteSwipe */ = {
 			isa = PBXGroup;
 			children = (
+				05A50EBF2DCD400E00AADB1D /* GameState.swift */,
+				05A50EBB2DCD3DC100AADB1D /* GameRules.swift */,
 				05089D592DCC03440083112A /* CarouselContentView.swift */,
 				05089D572DCC032E0083112A /* MorphingGridSquare.swift */,
 				05089D552DCC03070083112A /* CarouselViewModel.swift */,
@@ -271,8 +277,10 @@
 			files = (
 				05089D582DCC03360083112A /* MorphingGridSquare.swift in Sources */,
 				054E68BD2AF4BE3500606AB8 /* PuzzleGenerator.swift in Sources */,
+				05A50EBC2DCD3DC500AADB1D /* GameRules.swift in Sources */,
 				054E68852AF4863600606AB8 /* PaletteSwipeApp.swift in Sources */,
 				05089D562DCC031A0083112A /* CarouselViewModel.swift in Sources */,
+				05A50EC02DCD401200AADB1D /* GameState.swift in Sources */,
 				054E68BC2AF4BE3500606AB8 /* SwipeDirection.swift in Sources */,
 				05089D5A2DCC034D0083112A /* CarouselContentView.swift in Sources */,
 			);
