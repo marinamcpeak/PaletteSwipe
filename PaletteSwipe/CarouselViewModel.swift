@@ -32,9 +32,12 @@ class CarouselViewModel: ObservableObject {
     @Published var leftOverflow: [Color] = [.yellow, .yellow, .yellow]
     @Published var rightOverflow: [Color] = [.red, .red, .red]
     
-    // Drag state
+    // Drag state - only one can be active at a time
     @Published var activeRowDrag: RowDrag? = nil
     @Published var activeColumnDrag: ColumnDrag? = nil
+    
+    // Is the view model currently processing an animation?
+    @Published var isProcessingAnimation = false
     
     // Square size and animation configuration
     let squareSize: CGFloat = 50.0

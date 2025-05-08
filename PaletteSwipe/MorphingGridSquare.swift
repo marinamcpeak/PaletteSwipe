@@ -37,6 +37,7 @@ struct MorphingGridSquare: View {
                     width: calculateWidth(),
                     height: calculateHeight()
                 )
+                .opacity(calculateOpacity())
                 .offset(calculateOffset())
                 .position(
                     x: geometry.size.width / 2,
@@ -54,8 +55,13 @@ struct MorphingGridSquare: View {
     
     /// Determine if this square can be dragged
     private func canDrag() -> Bool {
-        // Main grid outer squares can be dragged
-        if !isOverflow && (row == 0 || row == 2 || column == 0 || column == 2) {
+        // Don't allow dragging during animation
+        if viewModel.isProcessingAnimation {
+            return false
+        }
+        
+        // Main grid outer squares can be dragged (except center)
+        if !isOverflow && (row == 0 || row == 2 || column == 0 || column == 2) && !(row == 1 && column == 1) {
             return true
         }
         
@@ -73,14 +79,28 @@ struct MorphingGridSquare: View {
                 // Vertical overflow (left/right) - reduced width, normal height
                 
                 // Check if we're in the middle of a horizontal row drag
-                if (row == 0 || row == 2) && viewModel.rowDragProgress(forRow: row) > 0 {
-                    let progress = viewModel.rowDragProgress(forRow: row)
-                    let direction = viewModel.rowDragDirection(forRow: row)
+                let activeRowDragExists = viewModel.activeRowDrag != nil
+                let isRowBeingDragged = activeRowDragExists && viewModel.activeRowDrag!.row == row
+                
+                if (row == 0 || row == 2) && isRowBeingDragged {
+                    let dragAmount = viewModel.activeRowDrag!.dragAmount
+                    let progress = min(1.0, abs(dragAmount / squareSize))
+                    let direction = dragAmount > 0 ? SwipeDirection.right : SwipeDirection.left
                     
-                    // If we're on the side that's being dragged toward
-                    if (direction == .right && column < 0) || (direction == .left && column > 2) {
-                        // Morph from narrow to wide as we drag
+                    // Check for expanding condition
+                    let isExpandingLeft = (column == -1) && (direction == .right)
+                    let isExpandingRight = (column == 3) && (direction == .left)
+                    
+                    // Check for compressing condition
+                    let isCompressingLeft = (column == -1) && (direction == .left)
+                    let isCompressingRight = (column == 3) && (direction == .right)
+                    
+                    if isExpandingLeft || isExpandingRight {
+                        // Expanding - Morph from narrow to wide as we drag in
                         return squareSize * overflowFactor + (squareSize - squareSize * overflowFactor) * progress
+                    } else if isCompressingLeft || isCompressingRight {
+                        // Compressing - Shrink as we push against it
+                        return max(0, squareSize * overflowFactor * (1.0 - progress))
                     }
                 }
                 
@@ -99,14 +119,28 @@ struct MorphingGridSquare: View {
                 // Horizontal overflow (top/bottom) - normal width, reduced height
                 
                 // Check if we're in the middle of a vertical column drag
-                if (column == 0 || column == 2) && viewModel.columnDragProgress(forColumn: column) > 0 {
-                    let progress = viewModel.columnDragProgress(forColumn: column)
-                    let direction = viewModel.columnDragDirection(forColumn: column)
+                let activeColumnDragExists = viewModel.activeColumnDrag != nil
+                let isColumnBeingDragged = activeColumnDragExists && viewModel.activeColumnDrag!.column == column
+                
+                if (column == 0 || column == 2) && isColumnBeingDragged {
+                    let dragAmount = viewModel.activeColumnDrag!.dragAmount
+                    let progress = min(1.0, abs(dragAmount / squareSize))
+                    let direction = dragAmount > 0 ? SwipeDirection.down : SwipeDirection.up
                     
-                    // If we're on the side that's being dragged toward
-                    if (direction == .down && row < 0) || (direction == .up && row > 2) {
-                        // Morph from short to tall as we drag
+                    // Check for expanding condition
+                    let isExpandingTop = (row == -1) && (direction == .down)
+                    let isExpandingBottom = (row == 3) && (direction == .up)
+                    
+                    // Check for compressing condition
+                    let isCompressingTop = (row == -1) && (direction == .up)
+                    let isCompressingBottom = (row == 3) && (direction == .down)
+                    
+                    if isExpandingTop || isExpandingBottom {
+                        // Expanding - Morph from short to tall as we drag in
                         return squareSize * overflowFactor + (squareSize - squareSize * overflowFactor) * progress
+                    } else if isCompressingTop || isCompressingBottom {
+                        // Compressing - Shrink as we push against it
+                        return max(0, squareSize * overflowFactor * (1.0 - progress))
                     }
                 }
                 
@@ -121,48 +155,116 @@ struct MorphingGridSquare: View {
         }
     }
     
+    /// Calculate opacity based on animation state
+    private func calculateOpacity() -> Double {
+        // Default opacity
+        var opacity: Double = 1.0
+        
+        // Make overflow squares fade as they compress
+        if isOverflow {
+            if !isHorizontal {
+                // Vertical overflow (left/right)
+                if let rowDrag = viewModel.activeRowDrag, row == rowDrag.row {
+                    let dragAmount = abs(rowDrag.dragAmount)
+                    let dragProgress = min(1.0, dragAmount / squareSize)
+                    let direction = rowDrag.dragAmount > 0 ? SwipeDirection.right : SwipeDirection.left
+                    
+                    // Check for compressing condition
+                    let isCompressingLeft = (column == -1) && (direction == .left)
+                    let isCompressingRight = (column == 3) && (direction == .right)
+                    
+                    if isCompressingLeft || isCompressingRight {
+                        // Fade out overflow square that's being pushed against
+                        opacity = max(0.2, 1.0 - dragProgress)
+                    }
+                }
+            } else if isHorizontal {
+                // Horizontal overflow (top/bottom)
+                if let columnDrag = viewModel.activeColumnDrag, column == columnDrag.column {
+                    let dragAmount = abs(columnDrag.dragAmount)
+                    let dragProgress = min(1.0, dragAmount / squareSize)
+                    let direction = columnDrag.dragAmount > 0 ? SwipeDirection.down : SwipeDirection.up
+                    
+                    // Check for compressing condition
+                    let isCompressingTop = (row == -1) && (direction == .up)
+                    let isCompressingBottom = (row == 3) && (direction == .down)
+                    
+                    if isCompressingTop || isCompressingBottom {
+                        // Fade out overflow square that's being pushed against
+                        opacity = max(0.2, 1.0 - dragProgress)
+                    }
+                }
+            }
+        }
+        
+        return opacity
+    }
+    
     /// Calculate the offset based on drag state
     private func calculateOffset() -> CGSize {
         var offset = CGSize.zero
         
-        // Handle row drags
-        if !isOverflow && (row == 0 || row == 2) && viewModel.activeRowDrag?.row == row {
+        // Handle row drags for main grid squares
+        let isInMainGrid = !isOverflow
+        let isInOuterRow = row == 0 || row == 2
+        let activeRowDragExists = viewModel.activeRowDrag != nil
+        let isActiveRowDragForThisRow = activeRowDragExists && viewModel.activeRowDrag!.row == row
+        
+        if isInMainGrid && isInOuterRow && isActiveRowDragForThisRow {
             let dragAmount = viewModel.activeRowDrag!.dragAmount
-            
-            // Apply different drag factors based on position
-            var dragFactor: CGFloat = 1.0
-            
-            // Calculate offset for row drags
-            offset.width += dragAmount * dragFactor
+            offset.width = dragAmount
         }
         
-        // Handle column drags
-        if !isOverflow && (column == 0 || column == 2) && viewModel.activeColumnDrag?.column == column {
+        // Handle column drags for main grid squares
+        let isInOuterColumn = column == 0 || column == 2
+        let activeColumnDragExists = viewModel.activeColumnDrag != nil
+        let isActiveColumnDragForThisColumn = activeColumnDragExists && viewModel.activeColumnDrag!.column == column
+        
+        if isInMainGrid && isInOuterColumn && isActiveColumnDragForThisColumn {
             let dragAmount = viewModel.activeColumnDrag!.dragAmount
-            
-            // Apply different drag factors based on position
-            var dragFactor: CGFloat = 1.0
-            
-            // Calculate offset for column drags
-            offset.height += dragAmount * dragFactor
+            offset.height = dragAmount
         }
         
         // Handle overflow drags - when main grid is dragged
         if isOverflow {
-            if !isHorizontal && (row == 0 || row == 2) && viewModel.activeRowDrag?.row == row {
-                // Left/right overflow during row drag
+            // Handle horizontal overflow during row drags
+            let isVerticalOverflow = !isHorizontal
+            let isInOuterRow = row == 0 || row == 2
+            let isActiveRowDragForThisRow = activeRowDragExists && viewModel.activeRowDrag!.row == row
+            
+            if isVerticalOverflow && isInOuterRow && isActiveRowDragForThisRow {
+                // Only move the overflow square if it's being pulled in, not pushed out
                 let dragAmount = viewModel.activeRowDrag!.dragAmount
-                let dragFactor: CGFloat = 0.5 // Overflow moves at half speed
+                let direction = dragAmount > 0 ? SwipeDirection.right : SwipeDirection.left
                 
-                offset.width += dragAmount * dragFactor
+                // Check for condition where we're pulling the square in
+                let isPullingInLeft = (column == -1) && (direction == .right)
+                let isPullingInRight = (column == 3) && (direction == .left)
+                
+                // If we're pulling the square in (not pushing out), move it
+                if isPullingInLeft || isPullingInRight {
+                    offset.width = dragAmount * 0.5 // Half speed for smoother effect
+                }
             }
             
-            if isHorizontal && (column == 0 || column == 2) && viewModel.activeColumnDrag?.column == column {
-                // Top/bottom overflow during column drag
+            // Handle vertical overflow during column drags
+            let isHorizontalOverflow = isHorizontal
+            let isInOuterColumn = column == 0 || column == 2
+            let isActiveColumnDragForThisColumn = activeColumnDragExists && viewModel.activeColumnDrag!.column == column
+            
+            if isHorizontalOverflow && isInOuterColumn && isActiveColumnDragForThisColumn {
+                // Only move the overflow square if it's being pulled in, not pushed out
                 let dragAmount = viewModel.activeColumnDrag!.dragAmount
-                let dragFactor: CGFloat = 0.5 // Overflow moves at half speed
+                let direction = dragAmount > 0 ? SwipeDirection.down : SwipeDirection.up
                 
-                offset.height += dragAmount * dragFactor
+                // Check for condition where we're pulling the square in
+                let isPullingInTop = (row == -1) && (direction == .down)
+                let isPullingInBottom = (row == 3) && (direction == .up)
+                
+                // If we're pulling the square in (not pushing out), move it
+                if isPullingInTop || isPullingInBottom {
+                    offset.height = dragAmount * 0.5 // Half speed for smoother effect
+                }
             }
         }
         
@@ -175,61 +277,88 @@ struct MorphingGridSquare: View {
             .onChanged { value in
                 guard canDrag() else { return }
                 
-                // Determine drag direction
+                // Determine drag direction based on primary movement axis
                 let translation = value.translation
                 
+                // Limit the maximum drag distance to prevent grid distortion
+                let maxDragDistance = squareSize * 1.0 // Limit to one square size
+                
                 if abs(translation.width) > abs(translation.height) {
-                    // Horizontal drag
+                    // Horizontal drag - only for top and bottom rows
                     if row == 0 || row == 2 {
-                        viewModel.activeRowDrag = RowDrag(row: row, dragAmount: translation.width)
+                        // Clear any column drag first
+                        viewModel.activeColumnDrag = nil
+                        
+                        // Apply the limited drag amount
+                        let limitedDragAmount = max(-maxDragDistance, min(maxDragDistance, translation.width))
+                        viewModel.activeRowDrag = RowDrag(row: row, dragAmount: limitedDragAmount)
                     }
                 } else {
-                    // Vertical drag
+                    // Vertical drag - only for leftmost and rightmost columns
                     if column == 0 || column == 2 {
-                        viewModel.activeColumnDrag = ColumnDrag(column: column, dragAmount: translation.height)
+                        // Clear any row drag first
+                        viewModel.activeRowDrag = nil
+                        
+                        // Apply the limited drag amount
+                        let limitedDragAmount = max(-maxDragDistance, min(maxDragDistance, translation.height))
+                        viewModel.activeColumnDrag = ColumnDrag(column: column, dragAmount: limitedDragAmount)
                     }
                 }
             }
             .onEnded { value in
                 guard canDrag() else { return }
                 
-                // Process row drags
+                // Handle row drags
                 if let activeRowDrag = viewModel.activeRowDrag, activeRowDrag.row == row {
-                    let dragAmount = activeRowDrag.dragAmount
-                    let threshold = squareSize * viewModel.swipeThreshold
+                    // Mark that we're processing an animation
+                    viewModel.isProcessingAnimation = true
                     
-                    if abs(dragAmount) > threshold {
+                    let direction: SwipeDirection = activeRowDrag.dragAmount > 0 ? .right : .left
+                    let threshold = squareSize * 0.3 // 30% of square size
+                    
+                    if abs(activeRowDrag.dragAmount) > threshold {
                         // Apply the swipe with animation
-                        let direction: SwipeDirection = dragAmount > 0 ? .right : .left
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                             viewModel.applySwipe(atRow: row, column: column, direction: direction)
                             viewModel.activeRowDrag = nil
                         }
                     } else {
-                        // Spring back
+                        // Spring back without applying changes
                         withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
                             viewModel.activeRowDrag = nil
                         }
                     }
+                    
+                    // Reset animation state after a delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        viewModel.isProcessingAnimation = false
+                    }
                 }
                 
-                // Process column drags
+                // Handle column drags
                 if let activeColumnDrag = viewModel.activeColumnDrag, activeColumnDrag.column == column {
-                    let dragAmount = activeColumnDrag.dragAmount
-                    let threshold = squareSize * viewModel.swipeThreshold
+                    // Mark that we're processing an animation
+                    viewModel.isProcessingAnimation = true
                     
-                    if abs(dragAmount) > threshold {
+                    let direction: SwipeDirection = activeColumnDrag.dragAmount > 0 ? .down : .up
+                    let threshold = squareSize * 0.3 // 30% of square size
+                    
+                    if abs(activeColumnDrag.dragAmount) > threshold {
                         // Apply the swipe with animation
-                        let direction: SwipeDirection = dragAmount > 0 ? .down : .up
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                             viewModel.applySwipe(atRow: row, column: column, direction: direction)
                             viewModel.activeColumnDrag = nil
                         }
                     } else {
-                        // Spring back
+                        // Spring back without applying changes
                         withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
                             viewModel.activeColumnDrag = nil
                         }
+                    }
+                    
+                    // Reset animation state after a delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        viewModel.isProcessingAnimation = false
                     }
                 }
             }
